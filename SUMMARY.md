@@ -2,7 +2,7 @@
 
 ## js基础 <a href="#js-basic" id="js-basic"></a>
 
-* [this指针](README.md)
+* [this 绑定](README.md)
 * [原型链](js-basic/proto.md)
 * [比较运算](js-basic/type-conversion.md)
 * [深拷贝和浅拷贝](<README (1).md>)
@@ -13,4 +13,7 @@
 
 ## 手写篇 <a href="#coding" id="coding"></a>
 
-* [Page 2](coding/page-2.md)
+* [Array.prototype.forEach](coding/for-each.md)
+* [Array.prototype.map](coding/map.md)
+* [Array.prototype.flatten](coding/flatten.md)
+* [扁平化数组](coding/flatten-arr.md)
