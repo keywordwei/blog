@@ -14,11 +14,15 @@
 
 ## 手写篇 <a href="#coding" id="coding"></a>
 
-* [Function.prototype.call](coding/call.md)
-* [Function.prototype.apply](coding/apply.md)
-* [Funcation.prototype.bind](coding/bind.md)
-* [Array.prototype.forEach](coding/for-each.md)
-* [Array.prototype.map](coding/map.md)
-* [Array.prototype.flatten](coding/flatten.md)
 * [深拷贝和浅拷贝](coding/clone.md)
-* [扁平化数组](coding/flatten-arr.md)
+* [this 绑定](coding/this/README.md)
+  * [Function.prototype.call](coding/this/call.md)
+  * [Function.prototype.apply](coding/this/apply.md)
+  * [Function.prototype.bind](coding/this/bind.md)
+  * [new](coding/this/new.md)
+* [array](coding/array/README.md)
+  * [Array.prototype.forEach](coding/array/for-each.md)
+  * [Array.prototype.map](coding/array/map.md)
+  * [Array.prototype.flatten](coding/array/flatten.md)
+  * [Array.prototype.reduce](coding/array/reduce.md)
+  * [扁平化数组](coding/array/flatten-arr.md)
