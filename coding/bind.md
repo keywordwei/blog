@@ -1,0 +1,2 @@
+# Funcation.prototype.bind
+

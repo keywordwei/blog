@@ -1,0 +1,2 @@
+# Function.prototype.apply
+
