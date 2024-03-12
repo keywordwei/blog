@@ -1,15 +1,5 @@
 ---
-layout:
-  title:
-    visible: false
-  description:
-    visible: false
-  tableOfContents:
-    visible: false
-  outline:
-    visible: false
-  pagination:
-    visible: false
+coverY: 0
 ---
 
 # var、let、const区别
