@@ -123,3 +123,25 @@ console.log(obj.prop); // 42
 
 :warning: `Object.freeze` 是浅冻结，只会冻结对象自身的属性，如果属性值是对象或者函数，属性值可以修改，如果需要冻结属性对像可以深冻结对象。
 
+```javascript
+const deepFreeze = (obj) => {
+  for (const key of Reflect.ownKeys(obj)) {
+    const value = obj[key];
+    if (typeof value === 'object' || typeof value === 'function') {
+      deepFreeze(value);
+    }
+  }
+  return Object.freeze(obj);
+};
+
+const obj = {
+  a: {
+    b: 1,
+  },
+};
+
+deepFreeze(obj);
+obj.a.b = 2;
+
+console.log(obj.a.b); // 1
+```
