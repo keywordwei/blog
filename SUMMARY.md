@@ -2,7 +2,7 @@
 
 ## js基础 <a href="#js-basic" id="js-basic"></a>
 
-* [var、let、const区别](README.md)
+* [var、let、const 区别](README.md)
 
 ## js进阶 <a href="#js-advanced" id="js-advanced"></a>
 
