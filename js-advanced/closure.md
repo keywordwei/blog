@@ -22,9 +22,37 @@ closure()(); // 2
 
 ## 循环中使用闭包
 
-[门口](../)
+[#kuai-ji-zuo-yong-yu](../#kuai-ji-zuo-yong-yu "mention")&#x20;
 
 ## 闭包模拟私有方法
+
+私有方法只有类内部才可以调用，实例对象无法调用类私有方法，js 没有私有方法这一概念，但是我们可以通过闭包模拟私有方法。
+
+```javascript
+var makeCounter = function () {
+  var privateCounter = 0;
+  function changeBy(val) {
+    privateCounter += val;
+  }
+  return {
+    increment: function () {
+      changeBy(1);
+    },
+    decrement: function () {
+      changeBy(-1);
+    },
+    value: function () {
+      return privateCounter;
+    },
+  };
+};
+
+var Counter1 = makeCounter();
+var Counter2 = makeCounter(); 
+Counter1.increment();
+console.log(Counter1.value()); // 1
+console.log(Counter2.value()); // 0 
+```
 
 ## References
 
