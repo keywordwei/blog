@@ -3,13 +3,13 @@
 ## js基础 <a href="#js-basic" id="js-basic"></a>
 
 * [var、let、const 区别](README.md)
+* [比较运算](js-basic/type-conversion.md)
 
 ## js进阶 <a href="#js-advanced" id="js-advanced"></a>
 
 * [闭包](js-advanced/closure.md)
 * [this 绑定](js-advanced/this.md)
 * [原型链](js-advanced/proto.md)
-* [比较运算](js-advanced/type-conversion.md)
 
 ## 手写篇 <a href="#coding" id="coding"></a>
 
