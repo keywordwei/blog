@@ -6,7 +6,6 @@
 
 ## js进阶 <a href="#js-advanced" id="js-advanced"></a>
 
-* [变量提升](js-advanced/hoisting.md)
 * [闭包](js-advanced/closure.md)
 * [this 绑定](js-advanced/this.md)
 * [原型链](js-advanced/proto.md)
