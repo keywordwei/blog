@@ -183,8 +183,179 @@ query 语句中的每个字段都对应着一个确定的路径，如`name`的�
     };
     ```
 
-### 合并
 
-## 场景
 
 ### 实现
+
+1. 根据列名按需筛选所需列名映射关系，打印出未配置的列名
+2. 校验 query 语句的合法性，每次查询只能有一个 query 语句
+3. 根据当前路径和 query 语句检查缓存中有没有裁切后的query语句，存在则直接从缓存返回结果
+4. 展开 fragment 中的字段，将所有 fragment 中的字段合并至 query 语句中，删除 fragment 片段，在展开过程中记录 fragment 名称和其路径的映射
+5. 根据 fragment 映射关系补全路径，提供完成的路径信息
+6. 遍历 query  语句  AST 抽象语法，根据完整路径信息裁切 query  语句，返回裁切后的 query
+7. 将结果存储至缓存中，缓存内容是源路径、query 语句和目标路径、目标 query 语句
+
+拍平逻辑
+
+递归遍历路径，获取路径数据，当路径数据时数组时，遍历数组获取路径数据
+
+```javascript
+import { get } from 'lodash'
+/**
+ * 将第一层数组数据解析为 list 字段下的对象数组
+ */
+const resolvePathValue = (data, fields) => {
+  if (fields.length === 0) {
+    return data
+  }
+  const value = get(data, fields[0])
+  if (Array.isArray(value)) {
+    const res = []
+    for (let i = 0; i < value.length; i++) {
+      res.push(resolvePathValue(value[i], fields.slice(1)))
+    }
+    return res
+  } else {
+    return resolvePathValue(value, fields.slice(1))
+  }
+}
+export default (data, paths) => {
+  const pathValue = {}
+  for (const prop of Object.keys(paths)) {
+    const fields = paths[prop].split('.') || []
+    pathValue[prop] = resolvePathValue(data, fields, '')
+  }
+  const res = {}
+  const list = []
+  for (const prop of Object.keys(pathValue)) {
+    const value = pathValue[prop]
+    if (Array.isArray(value)) {
+      // 拍平为 list 数组
+      for (let i = 0; i < value.length; i++) {
+        list[i] = list[i] || {}
+        list[i][prop] = value[i]
+      }
+    } else {
+      res[prop] = value
+    }
+  }
+  if (list.length > 0) {
+    res.list = list
+  }
+  return res
+}
+```
+
+## 合并
+
+### 场景
+
+在微前端架构下，查询语句的某些字段是由不同微应用动态注入的，这些字段只属于微应用所以不能全部写在一个 query 语句里，这时就需要实现 query 语句的合并功能。
+
+源 query 语句
+
+```graphql
+fragment repository on Repository {
+  id
+  name
+  description
+}
+
+query user($login: String!, $last: Int!) {
+  user(login: $login) {
+    repositories(last: $last) {
+      totalCount
+      nodes {
+        ...repository
+      }
+    }
+  }
+}
+```
+
+需要合并的 query 语句
+
+```graphql
+fragment repository on Repository {
+ defaultBranchRef {
+    name
+  }
+}
+
+query user($login: String!, $last: Int!) {
+  user(login: $login) {
+    repositories(last: $last) {
+      nodes {
+        ...repository
+      }
+      totalDiskUsage
+    }
+  }
+}
+```
+
+合并后的 query 语句
+
+```graphql
+fragment repository on Repository {
+  id
+  name
+  description
+  defaultBranchRef {
+    name
+  }
+}
+
+query user($login: String!, $last: Int!) {
+  user(login: $login) {
+    repositories(last: $last) {
+      totalCount
+      totalDiskUsage
+      nodes {
+        ...repository
+      }
+    }
+  }
+}
+```
+
+### 设计
+
+将要注入源 query 语句的字段，按照源 query 语句的层级重写编写一个新的合并 query 语句，这样当 query 语句解析 为 AST 抽象语法树后，实际上就是在合并两棵树；更通俗的说就是按照层级递归合并两个对象，只不过合并逻辑是要符合 AST 语法树格式的。
+
+```javascript
+const source = {
+  user: {
+    repositories: {
+      totalCount,
+      nodes: {
+        repository: {
+          id: 'x',
+          name: 'x',
+        },
+      },
+    },
+  },
+};
+
+const target = {
+  user: {
+    repositories: {
+      totalDiskUsage,
+      nodes: {
+        repository: {
+          defaultBranchRef: {
+            name: 'xxx',
+          },
+        },
+      },
+    },
+  },
+};
+```
+
+### 实现
+
+1. 合并 query 语句
+2. 合并 fragment 片段
+3. 集成合并后的 query 语句和 fragment 片段，返回合并后 query 语句
