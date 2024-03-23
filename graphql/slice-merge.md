@@ -16,6 +16,7 @@
 query user($login: String!, $last: Int!) {
   user(login: $login) {
     repositories(last: $last) {
+      totalCount
       nodes {
         id
         name
@@ -45,6 +46,7 @@ query user($login: String!, $last: Int!) {
 query user($login: String!, $last: Int!) {
   user(login: $login) {
     repositories(last: $last) {
+      totalCount
       nodes {
         id
         name
@@ -66,6 +68,7 @@ query 语句中的每个字段都对应着一个确定的路径，如`name`的�
 
     ```javascript
     {
+      total: 'user.repositories.totalCount'
       id: 'user.repositories.nodes.id',
       name: 'user.repositories.nodes.name',
       url: 'user.repositories.nodes.url',
@@ -73,11 +76,12 @@ query 语句中的每个字段都对应着一个确定的路径，如`name`的�
     ```
 
 
-2.  id 数据并不属于需要展示的列，但是确是必须存在的数据，提供 columns 配置项筛选出显示的表格列， columns 的内容应该是表格列的全集\
+2.  `id` 和 `total` 数据并不属于需要展示的列，但是确是必须存在的数据，提供 columns 配置项筛选出显示的表格列， columns 的内容应该是表格列的全集\
 
 
     ```javascript
     {
+      total: 'user.repositories.totalCount'
       id: 'user.repositories.nodes.id',
       columns: {
         name: 'user.repositories.nodes.name',
@@ -102,6 +106,7 @@ query 语句中的每个字段都对应着一个确定的路径，如`name`的�
     query user($login: String!, $last: Int!) {
       user(login: $login) {
         repositories(last: $last) {
+          totalCount
           nodes {
             ...repository
           }
@@ -115,15 +120,15 @@ query 语句中的每个字段都对应着一个确定的路径，如`name`的�
     `user.repositories.nodes`路径可以直接使用 fragment 名称 `repository` 代替\
 
 
-    ```javascript
-    {
-      id: 'repository.id',
+    <pre class="language-javascript"><code class="lang-javascript">{
+    <strong>  total: 'user.repositories.totalCount'
+    </strong>  id: 'repository.id',
       columns: {
         name: 'repository.name',
         url: 'repository.url',
       },
     };
-    ```
+    </code></pre>
 
 {% hint style="warning" %}
 多个同名 fragment 复用时，简写路径只会裁切第一次使用 fragment 的语句，其余同名 fragment 的字段需要使用完整路径
@@ -137,6 +142,7 @@ query 语句中的每个字段都对应着一个确定的路径，如`name`的�
     ```javascript
     {
       user: {
+        totalCount: 10,
         repositories: {
           nodes: [
             {
@@ -161,6 +167,7 @@ query 语句中的每个字段都对应着一个确定的路径，如`name`的�
 
     ```javascript
     {
+      total: 10,
       list: [
         {
           id: 'R_kgDOHTg3yg',
