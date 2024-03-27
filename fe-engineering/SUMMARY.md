@@ -4,11 +4,6 @@
 
 * [简介](README.md)
 
-## 微前端 <a href="#micro-fe" id="micro-fe"></a>
-
-* [Page 2](../micro-fe/page-2.md)
-* [Page 1](../micro-fe/page-1.md)
-
 ***
 
 * [国际化](../i18n.md)
