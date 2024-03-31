@@ -9,6 +9,6 @@
 * [接口数据国际化](i18n/server.md)
 * [前端国际化](i18n/ui.md)
 
-***
+## 路由 <a href="#route" id="route"></a>
 
-* [约定式路由](route.md)
+* [约定式路由](route/route.md)

@@ -48,7 +48,7 @@ const routes = [
 当一个页面有多个 Tab 标签页，每个标签页都需要渲染对应的组件，切换 tab 标签就需要使用嵌套路由，约定创建与目录名同名且同层级的 vue 文件时生成嵌套路由。\
 
 
-<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 ```bash
 └─ src
