@@ -12,4 +12,4 @@
 ## 路由 <a href="#route" id="route"></a>
 
 * [约定式路由](route/route.md)
-* [菜单](route/menu.md)
+* [sitemap](route/menu.md)
